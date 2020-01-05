@@ -43,3 +43,9 @@ link : https://www.kaggle.com/c/dogs-vs-cats
     For example, you can randomly rotate, mirror, scale, and/or crop your images during training.
     This will help your network generalize as it's seeing the same images but in different locations,
     with different sizes, in different orientations, etc.
+    
+# building our own model
+    32 -batch size, 150528 -features
+    so we can build our model for this like below but it requires a huge amount of memory for training and testing 
+    more than 25GB RAM required. 
+    as we don't have that huge specification of hardware we will use pretrained model as discusse above.
