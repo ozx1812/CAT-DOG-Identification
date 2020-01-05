@@ -36,3 +36,10 @@ link : https://www.kaggle.com/c/dogs-vs-cats
     
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True)
     Here dataloader is a generator. To get data out of it, you need to loop through it or convert it to an iterator and call next().
+
+# Data Augmentation
+
+    A common strategy for training neural networks is to introduce randomness in the input data itself. 
+    For example, you can randomly rotate, mirror, scale, and/or crop your images during training.
+    This will help your network generalize as it's seeing the same images but in different locations,
+    with different sizes, in different orientations, etc.
