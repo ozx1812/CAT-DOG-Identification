@@ -1,4 +1,4 @@
-# cat - dog classification or identification using Transfer Learning in PyTorch
+# CAT-DOG From High Resolution Images classification or identification using Transfer Learning in PyTorch
 
 # Transfer Learning
 
