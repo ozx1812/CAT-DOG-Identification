@@ -189,5 +189,47 @@ for ii in range(4):
     
 print((images.view(images.shape[0],-1)).shape) # gives output torch.Size([32, 150528])
 
+"""
+--------------------------------------------------------------------------------------------------------
+In above print statement you will see that here our tensor have size ([32, 150528])
+32 -batch size, 150528 -features
+so we can build our model for this like below but it requires a huge amount of memory for training and testing 
+more than 25GB RAM required.
+--------------------------------------------------------------------------------------------------------
+from torch import nn, optim
+import torch.nn.functional as F
+
+class Classifier_cat_dog(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = nn.Linear(150528, 65535)
+        self.fc2 = nn.Linear(65535, 16384)
+        self.fc3 = nn.Linear(16384, 4096)
+        self.fc4 = nn.Linear(4096, 1024)
+        self.fc5 = nn.Linear(1024, 256)
+        self.fc6 = nn.Linear(256, 128)
+        self.fc7 = nn.Linear(128, 64)
+        self.fc8 = nn.Linear(64, 2)
+        self.drop = nn.Dropout(p=0.2)
+        
+    def forward(self, x):
+        # make sure input tensor is flattened
+        x = x.view(x.shape[0], -1)
+        
+        x = self.drop(F.relu(self.fc1(x)))
+        x = self.drop(F.relu(self.fc2(x)))
+        x = self.drop(F.relu(self.fc3(x)))
+        x = self.drop(F.relu(self.fc4(x)))
+        x = self.drop(F.relu(self.fc5(x)))
+        x = self.drop(F.relu(self.fc6(x)))
+        x = self.drop(F.relu(self.fc7(x)))
+        x = F.log_softmax(self.fc8(x), dim=1)
+        
+        return x
+        
+--------------------------------------------------------------------------------------------------------
+
+"""
+
 
 
