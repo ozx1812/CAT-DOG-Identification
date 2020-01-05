@@ -44,8 +44,17 @@ link : https://www.kaggle.com/c/dogs-vs-cats
     This will help your network generalize as it's seeing the same images but in different locations,
     with different sizes, in different orientations, etc.
     
-# building our own model
+# Building our own model
     32 -batch size, 150528 -features
     so we can build our model for this like below but it requires a huge amount of memory for training and testing 
     more than 25GB RAM required. 
     as we don't have that huge specification of hardware we will use pretrained model as discusse above.
+    
+# Transfer Learning
+
+    Most of the pretrained models require the input to be 224x224 images. 
+    Also, we'll need to match the normalization used when the models were trained. Each color channel was normalized separately, 
+    the means are [0.485, 0.456, 0.406] and the standard deviations are [0.229, 0.224, 0.225].
+    DenseNet.(link: http://pytorch.org/docs/0.3.0/torchvision/models.html#id5)
+    
+          
