@@ -125,4 +125,69 @@ helper.imshow(images[0], normalize=False)
 
 """
 --------------------------------------------------------------------------------------------------------
+Data Augmentation
+
+A common strategy for training neural networks is to introduce randomness in the input data itself. 
+For example, you can randomly rotate, mirror, scale, and/or crop your images during training.
+This will help your network generalize as it's seeing the same images but in different locations,
+with different sizes, in different orientations, etc.
+
+To randomly rotate, scale and crop, then flip your images you would define your transforms like this:
+
+train_transforms = transforms.Compose([transforms.RandomRotation(30),
+                                       transforms.RandomResizedCrop(224),
+                                       transforms.RandomHorizontalFlip(),
+                                       transforms.ToTensor(),
+                                       transforms.Normalize([0.5, 0.5, 0.5], 
+                                                            [0.5, 0.5, 0.5])])
+
+You'll also typically want to normalize images with transforms.Normalize. 
+You pass in a list of means and list of standard deviations, then the color channels are normalized like so
+
+input[channel] = (input[channel] - mean[channel]) / std[channel]
+
+Subtracting mean centers the data around zero and dividing by std squishes the values 
+to be between -1 and 1. Normalizing helps keep the network work weights near zero
+which in turn makes backpropagation more stable. Without normalization, networks will tend to fail to learn.
+
+You can find a list of all the available transforms here. (link : http://pytorch.org/docs/0.3.0/torchvision/transforms.html)
+When you're testing however, you'll want to use images that aren't altered (except you'll need to normalize the same way). 
+So, for validation/test images, you'll typically just resize and crop.
+
+--------------------------------------------------------------------------------------------------------
 """
+
+
+data_dir = 'Cat_Dog_data'
+
+#Define transforms for the training data and testing data
+train_transforms = transforms.Compose([transforms.RandomRotation(30),
+                                      transforms.RandomResizedCrop(224),
+                                      transforms.RandomHorizontalFlip(),
+                                      transforms.ToTensor()])
+
+test_transforms = transforms.Compose([transforms.Resize(255),
+                                      transforms.CenterCrop(224),
+                                      transforms.ToTensor()])
+
+
+# Pass transforms in here, then run the next cell to see how the transforms look
+train_data = datasets.ImageFolder(data_dir + '/train', transform=train_transforms)
+test_data = datasets.ImageFolder(data_dir + '/test', transform=test_transforms)
+
+trainloader = torch.utils.data.DataLoader(train_data, batch_size=32)
+testloader = torch.utils.data.DataLoader(test_data, batch_size=32)
+
+# change this to the trainloader or testloader 
+data_iter = iter(testloader)
+
+images, labels = next(data_iter)
+fig, axes = plt.subplots(figsize=(10,4), ncols=4)
+for ii in range(4):
+    ax = axes[ii]
+    helper.imshow(images[ii], ax=ax, normalize=False)
+    
+print((images.view(images.shape[0],-1)).shape) # gives output torch.Size([32, 150528])
+
+
+
